@@ -84,14 +84,14 @@ const HomeSection = ({ playIntro }: HomeSectionProps) => {
               <i className="fas fa-play mr-2"></i> PLAY MY INTRO
             </motion.button>
             <motion.a 
-              href="https://github.com/your-github" 
+              href={PROFILE.linkedin}
               target="_blank"
               rel="noopener noreferrer"
               className="spotify-button-outline mb-3 inline-flex items-center justify-center"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <i className="fas fa-file-download mr-2"></i> DOWNLOAD CV
+              <i className="fab fa-linkedin mr-2"></i> VIEW LINKEDIN
             </motion.a>
           </div>
         </div>

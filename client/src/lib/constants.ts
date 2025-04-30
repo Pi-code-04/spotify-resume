@@ -4,7 +4,7 @@ export const PROFILE = {
   email: "Piyush2004sinha@gmail.com",
   phone: "+91 6266972369",
   image: "https://media.licdn.com/dms/image/v2/D4D03AQGNGXUK2plbEw/profile-displayphoto-shrink_800_800/B4DZTptDnLGkAc-/0/1739087691373?e=1751500800&v=beta&t=xuTbV5tFU3DIca_rwBRRdhHVR5M8eCw1CsyuiXrh0cM",
-  linkedin: "https://www.linkedin.com/",
+  linkedin: "https://www.linkedin.com/in/piyush-sinha-1a6036286?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
   github: "https://github.com/"
 };
 
