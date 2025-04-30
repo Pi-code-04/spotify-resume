@@ -77,7 +77,21 @@ const HomeSection = ({ playIntro }: HomeSectionProps) => {
           <div className="flex flex-wrap justify-center md:justify-start mt-4">
             <motion.button 
               className="spotify-button mr-4 mb-3"
-              onClick={playIntro}
+              onClick={() => {
+                // Add visual feedback when playing intro
+                const btn = document.activeElement as HTMLElement;
+                if (btn) {
+                  // Flash the button briefly
+                  btn.classList.add('button-flash');
+                  setTimeout(() => btn.classList.remove('button-flash'), 300);
+                }
+                
+                // Call the play intro function
+                playIntro();
+                
+                // Log for debugging
+                console.log('Play intro button clicked');
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
