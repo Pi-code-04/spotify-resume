@@ -137,33 +137,94 @@ export const useAudio = () => {
   }, [audioElement, isPlaying, setAnalyser, setDataArray]);
 
   const playIntro = useCallback(() => {
-    const introAudio = document.getElementById('introAudio') as HTMLAudioElement;
+    console.log("Attempting to play intro...");
     
-    if (introAudio) {
-      try {
-        // Make sure intro audio is ready to play
-        introAudio.currentTime = 0;
-        introAudio.volume = 1.0;
-        
-        // Play background music at lower volume if not already playing
-        if (audioElement && !isPlaying) {
+    try {
+      // First, manually create an audio context to ensure audio is working
+      const tempContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      tempContext.resume().then(() => {
+        console.log("Audio context resumed successfully");
+      }).catch(err => {
+        console.error("Failed to resume audio context:", err);
+      });
+      
+      // Get both audio elements
+      const introAudio = document.getElementById('introAudio') as HTMLAudioElement;
+      
+      if (!introAudio) {
+        console.error("Intro audio element not found");
+        return;
+      }
+      
+      console.log("Intro audio element found, preparing to play");
+      
+      // Reset the audio to make sure it's ready to play
+      introAudio.pause();
+      introAudio.currentTime = 0;
+      introAudio.volume = 1.0;
+      
+      // Create and display a toast notification to inform the user
+      const event = new CustomEvent('toast', { 
+        detail: { 
+          title: 'Playing Introduction',
+          description: 'Enjoy the audio introduction to my portfolio!',
+          duration: 3000
+        } 
+      });
+      document.dispatchEvent(event);
+      
+      // First, play the background music if it exists and isn't already playing
+      if (audioElement) {
+        if (!isPlaying) {
           audioElement.volume = 0.3;
-          audioElement.play().catch(error => {
+          try {
+            const playPromise = audioElement.play();
+            if (playPromise !== undefined) {
+              playPromise.catch(error => {
+                console.error("Error playing background audio:", error);
+              });
+            }
+          } catch (error) {
             console.error("Error playing background audio:", error);
-          });
+          }
         }
         
-        // Play the intro audio with a small delay
+        // Now play the intro with a slight delay
         setTimeout(() => {
-          introAudio.play().catch(error => {
+          try {
+            const introPromise = introAudio.play();
+            if (introPromise !== undefined) {
+              introPromise
+                .then(() => {
+                  console.log("Intro audio playing successfully");
+                })
+                .catch(error => {
+                  console.error("Error playing intro audio:", error);
+                  // If intro fails, at least make sure background music is playing
+                  if (audioElement && !audioElement.paused) {
+                    audioElement.volume = 1.0;
+                  }
+                });
+            }
+          } catch (error) {
             console.error("Error playing intro audio:", error);
-          });
-        }, 300);
-      } catch (error) {
-        console.error("Error in playIntro function:", error);
+          }
+        }, 500);
+      } else {
+        // If background audio doesn't exist, just play the intro
+        try {
+          const introPromise = introAudio.play();
+          if (introPromise !== undefined) {
+            introPromise.catch(error => {
+              console.error("Error playing intro audio when no background exists:", error);
+            });
+          }
+        } catch (error) {
+          console.error("Error playing intro audio:", error);
+        }
       }
-    } else {
-      console.error("Intro audio element not found");
+    } catch (error) {
+      console.error("Critical error in playIntro function:", error);
     }
   }, [audioElement, isPlaying]);
 
