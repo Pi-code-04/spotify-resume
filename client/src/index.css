@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --spotify-green: 29 185 84; /* #1DB954 */
+  --spotify-black: 25 20 20; /* #191414 */
+  --spotify-dark-gray: 18 18 18; /* #121212 */
+  --spotify-light-gray: 40 40 40; /* #282828 */
+  --spotify-white: 255 255 255; /* #FFFFFF */
+  
+  --background: var(--spotify-black);
+  --foreground: var(--spotify-white);
+  --card: var(--spotify-light-gray);
+  --card-foreground: var(--spotify-white);
+  --popover: var(--spotify-black);
+  --popover-foreground: var(--spotify-white);
+  --primary: 29 185 84; /* Spotify Green */
+  --primary-foreground: var(--spotify-white);
+  --secondary: var(--spotify-light-gray);
+  --secondary-foreground: var(--spotify-white);
+  --muted: 60 4.8% 95.9%;
+  --muted-foreground: 179 179 179; /* #b3b3b3 */
+  --accent: var(--spotify-light-gray);
+  --accent-foreground: var(--spotify-white);
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: var(--spotify-white);
+  --border: 40 40 40; /* #282828 */
+  --input: var(--spotify-light-gray);
+  --ring: var(--spotify-green);
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: var(--spotify-black);
+  --foreground: var(--spotify-white);
+  --card: var(--spotify-light-gray);
+  --card-foreground: var(--spotify-white);
+  --popover: var(--spotify-black);
+  --popover-foreground: var(--spotify-white);
+  --primary: 29 185 84; /* Spotify Green */
+  --primary-foreground: var(--spotify-white);
+  --secondary: var(--spotify-light-gray);
+  --secondary-foreground: var(--spotify-white);
+  --muted: var(--spotify-light-gray);
+  --muted-foreground: 179 179 179; /* #b3b3b3 */
+  --accent: var(--spotify-light-gray);
+  --accent-foreground: var(--spotify-white);
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: var(--spotify-white);
+  --border: 40 40 40; /* #282828 */
+  --input: var(--spotify-light-gray);
+  --ring: var(--spotify-green);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    font-family: 'Montserrat', sans-serif;
+    overflow-x: hidden;
+  }
+}
+
+.spotify-container {
+  @apply flex flex-col min-h-screen;
+}
+
+.spotify-main {
+  @apply flex flex-1 flex-col md:flex-row;
+}
+
+.sidebar {
+  @apply bg-[#191414] w-full md:w-60 p-6 flex-shrink-0;
+}
+
+.content-area {
+  @apply flex-1 bg-gradient-to-b from-[#3b3b3b] to-[#121212] to-25% p-6 overflow-y-auto;
+}
+
+.now-playing-bar {
+  @apply bg-[#282828] border-t border-[#333] py-4 px-6;
+}
+
+.nav-item {
+  @apply flex items-center p-2 mb-2 rounded cursor-pointer;
+}
+
+.nav-item.active {
+  @apply bg-[#282828] text-white;
+}
+
+.nav-item:not(.active) {
+  @apply text-[#b3b3b3] hover:text-white;
+}
+
+.section-content {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.spotify-button {
+  @apply bg-[#1DB954] text-white font-bold py-3 px-8 rounded-full transition transform hover:scale-105 focus:outline-none;
+}
+
+.spotify-button-outline {
+  @apply border border-[#b3b3b3] text-white font-bold py-3 px-8 rounded-full transition hover:border-white focus:outline-none;
+}
+
+.track-item {
+  @apply flex items-center p-3 bg-opacity-70 bg-[#282828] rounded hover:bg-opacity-90 transition cursor-pointer;
+}
+
+.project-card {
+  @apply bg-[#282828] bg-opacity-70 p-4 rounded-lg hover:bg-opacity-90 transition cursor-pointer;
+}
+
+.skill-tag {
+  @apply px-3 py-1 bg-[#121212] rounded-full text-sm;
+}
+
+.skill-level {
+  @apply w-full bg-[#282828] rounded-full h-2;
+}
+
+.skill-progress {
+  @apply bg-[#1DB954] h-2 rounded-full;
+}
