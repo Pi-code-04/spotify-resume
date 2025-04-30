@@ -110,21 +110,29 @@ export const useAudio = () => {
       });
     }
     
-    if (!audioContextRef.current) {
-      audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
-      sourceRef.current = audioContextRef.current.createMediaElementSource(audioElement);
-      
-      const analyzerNode = audioContextRef.current.createAnalyser();
-      analyzerNode.fftSize = 256;
-      
-      sourceRef.current.connect(analyzerNode);
-      analyzerNode.connect(audioContextRef.current.destination);
-      
-      const bufferLength = analyzerNode.frequencyBinCount;
-      const dataBuffer = new Uint8Array(bufferLength);
-      
-      setAnalyser(analyzerNode);
-      setDataArray(dataBuffer);
+    try {
+      if (!audioContextRef.current) {
+        audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+        
+        // Only create the source if it doesn't exist
+        if (!sourceRef.current) {
+          sourceRef.current = audioContextRef.current.createMediaElementSource(audioElement);
+          
+          const analyzerNode = audioContextRef.current.createAnalyser();
+          analyzerNode.fftSize = 256;
+          
+          sourceRef.current.connect(analyzerNode);
+          analyzerNode.connect(audioContextRef.current.destination);
+          
+          const bufferLength = analyzerNode.frequencyBinCount;
+          const dataBuffer = new Uint8Array(bufferLength);
+          
+          setAnalyser(analyzerNode);
+          setDataArray(dataBuffer);
+        }
+      }
+    } catch (error) {
+      console.error("Error setting up audio context:", error);
     }
   }, [audioElement, isPlaying, setAnalyser, setDataArray]);
 
@@ -132,12 +140,30 @@ export const useAudio = () => {
     const introAudio = document.getElementById('introAudio') as HTMLAudioElement;
     
     if (introAudio) {
-      if (!isPlaying && audioElement) {
-        audioElement.volume = 0.3;
-        audioElement.play().catch(console.error);
+      try {
+        // Make sure intro audio is ready to play
+        introAudio.currentTime = 0;
+        introAudio.volume = 1.0;
+        
+        // Play background music at lower volume if not already playing
+        if (audioElement && !isPlaying) {
+          audioElement.volume = 0.3;
+          audioElement.play().catch(error => {
+            console.error("Error playing background audio:", error);
+          });
+        }
+        
+        // Play the intro audio with a small delay
+        setTimeout(() => {
+          introAudio.play().catch(error => {
+            console.error("Error playing intro audio:", error);
+          });
+        }, 300);
+      } catch (error) {
+        console.error("Error in playIntro function:", error);
       }
-      
-      introAudio.play().catch(console.error);
+    } else {
+      console.error("Intro audio element not found");
     }
   }, [audioElement, isPlaying]);
 
