@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piyush Sinha - Spotify Resume</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --spotify-green: #1DB954;
+            --spotify-black: #191414;
+            --spotify-dark-gray: #121212;
+            --spotify-light-gray: #282828;
+            --spotify-white: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--spotify-black);
+            color: var(--spotify-white);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .spotify-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .spotify-main {
+            display: flex;
+            flex: 1;
+        }
+
+        .sidebar {
+            background-color: var(--spotify-black);
+            width: 240px;
+            padding: 24px 16px;
+            color: #b3b3b3;
+            flex-shrink: 0;
+        }
+
+        .content {
+            background: linear-gradient(to bottom, #3b3b3b, var(--spotify-dark-gray) 25%);
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .now-playing-bar {
+            background-color: var(--spotify-light-gray);
+            border-top: 1px solid #282828;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            color: var(--spotify-white);
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            color: #b3b3b3;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: var(--spotify-white);
+        }
+
+        .nav-item.active {
+            background-color: var(--spotify-light-gray);
+        }
+
+        .nav-item i {
+            margin-right: 16px;
+            font-size: 20px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--spotify-white);
+        }
+
+        .track {
+            display: flex;
+            padding: 8px 16px;
+            background-color: rgba(40, 40, 40, 0.7);
+            border-radius: 4px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .track:hover {
+            background-color: rgba(60, 60, 60, 0.7);
+        }
+
+        .track-number {
+            width: 24px;
+            color: #b3b3b3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+            font-size: 14px;
+        }
+
+        .track-info {
+            flex: 1;
+        }
+
+        .track-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .track-artist {
+            font-size: 14px;
+            color: #b3b3b3;
+        }
+
+        .track-duration {
+            color: #b3b3b3;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: flex-end;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin-right: 24px;
+            object-fit: cover;
+            box-shadow: 0 4px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-type {
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .profile-name {
+            font-size: 64px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+
+        .profile-meta {
+            display: flex;
+            align-items: center;
+            color: #b3b3b3;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .profile-meta span {
+            margin-right: 24px;
+        }
+
+        .spotify-button {
+            background-color: var(--spotify-green);
+            color: var(--spotify-white);
+            border: none;
+            border-radius: 500px;
+            padding: 12px 32px;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .spotify-button:hover {
+            transform: scale(1.05);
+        }
+
+        .spotify-button.outline {
+            background-color: transparent;
+            border: 1px solid #b3b3b3;
+            color: var(--spotify-white);
+        }
+
+        .spotify-button.outline:hover {
+            border-color: var(--spotify-white);
+        }
+
+        .track-content {
+            background-color: rgba(30, 30, 30, 0.7);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background-color: #5a5a5a;
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            margin: 0 16px;
+        }
+
+        .progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: var(--spotify-green);
+            width: 30%;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+        }
+
+        .control-button {
+            background: none;
+            border: none;
+            color: #b3b3b3;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 8px;
+            transition: color 0.2s ease;
+        }
+
+        .control-button:hover {
+            color: var(--spotify-white);
+        }
+
+        .control-button.play-pause {
+            font-size: 32px;
+            color: var(--spotify-white);
+        }
+
+        .playlist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .playlist-card {
+            background-color: rgba(40, 40, 40, 0.7);
+            border-radius: 8px;
+            padding: 16px;
+            transition: background-color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .playlist-card:hover {
+            background-color: rgba(60, 60, 60, 0.7);
+        }
+
+        .playlist-image {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        .playlist-title {
+            font-weight: 700;
+            margin-bottom: 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .playlist-description {
+            color: #b3b3b3;
+            font-size: 14px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .section-content {
+            display: none;
+        }
+
+        .active-section {
+            display: block;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+        }
+
+        .skill-card {
+            background-color: rgba(60, 60, 60, 0.7);
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .spotify-main {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                padding: 16px;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .profile-image {
+                margin-right: 0;
+                margin-bottom: 24px;
+            }
+
+            .profile-name {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Music -->
+    <audio id="bgMusic" loop>
+        <source src="https://cdn1.genspark.ai/user-upload-image/3/d28f08ad-9f79-4a9d-8336-ad91255c813d.mp3" type="audio/mp3">
+    </audio>
+
+    <!-- Introduction Audio -->
+    <audio id="introAudio">
+        <source src="https://cdn1.genspark.ai/user-upload-image/1/728504f7-961c-4ee7-b171-290128ea5b96.mp3" type="audio/mp3">
+    </audio>
+
+    <div class="spotify-container">
+        <div class="spotify-main">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="logo">
+                    <i class="fab fa-spotify mr-2 text-green-500"></i>
+                    <span>Resumify</span>
+                </div>
+                <div class="nav-menu">
+                    <div class="nav-item active" data-section="home">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </div>
+                    <div class="nav-item" data-section="about">
+                        <i class="fas fa-user"></i>
+                        <span>About</span>
+                    </div>
+                    <div class="nav-item" data-section="experience">
+                        <i class="fas fa-briefcase"></i>
+                        <span>Experience</span>
+                    </div>
+                    <div class="nav-item" data-section="education">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Education</span>
+                    </div>
+                    <div class="nav-item" data-section="projects">
+                        <i class="fas fa-code"></i>
+                        <span>Projects</span>
+                    </div>
+                    <div class="nav-item" data-section="skills">
+                        <i class="fas fa-star"></i>
+                        <span>Skills</span>
+                    </div>
+                    <div class="nav-item" data-section="certifications">
+                        <i class="fas fa-certificate"></i>
+                        <span>Certifications</span>
+                    </div>
+                </div>
+                <div class="mt-8">
+                    <div class="text-xs uppercase font-bold mb-4 text-gray-400">External Links</div>
+                    <a href="https://www.linkedin.com/in/piyush-sinha-1a6036286" target="_blank" class="nav-item">
+                        <i class="fab fa-linkedin"></i>
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="https://github.com/" target="_blank" class="nav-item">
+                        <i class="fab fa-github"></i>
+                        <span>GitHub</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="content">
+                <!-- Home Section -->
+                <div id="home" class="section-content active-section">
+                    <div class="profile-header">
+                        <img src="https://media.licdn.com/dms/image/v2/D4D03AQGNGXUK2plbEw/profile-displayphoto-shrink_800_800/B4DZTptDnLGkAc-/0/1739087691373?e=1751500800&v=beta&t=xuTbV5tFU3DIca_rwBRRdhHVR5M8eCw1CsyuiXrh0cM" alt="Piyush Sinha" class="profile-image">
+                        <div class="profile-info">
+                            <div class="profile-type">Profile</div>
+                            <h1 class="profile-name">Piyush Sinha</h1>
+                            <div class="profile-meta">
+                                <span>
+                                    <i class="fas fa-map-marker-alt mr-2"></i>
+                                    Durg, Bhilai, Chhattisgarh 490023
+                                </span>
+                                <span>
+                                    <i class="fas fa-envelope mr-2"></i>
+                                    Piyush2004sinha@gmail.com
+                                </span>
+                            </div>
+                            <div class="flex mt-4">
+                                <button class="spotify-button mr-4" id="playIntro">
+                                    <i class="fas fa-play mr-2"></i>Play Introduction
+                                </button>
+                                <a href="tel:+916266972369" class="spotify-button outline">
+                                    <i class="fas fa-phone mr-2"></i>Contact
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-title">Popular Playlists</div>
+                    <div class="playlist-grid">
+                        <div class="playlist-card" onclick="switchSection('about')">
+                            <div class="playlist-image bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center">
+                                <i class="fas fa-user text-6xl text-white opacity-80"></i>
+                            </div>
+                            <div class="playlist-title">About Me</div>
+                            <div class="playlist-description">Learn more about my background and professional journey</div>
+                        </div>
+                        <div class="playlist-card" onclick="switchSection('experience')">
+                            <div class="playlist-image bg-gradient-to-br from-red-500 to-pink-600 flex items-center justify-center">
+                                <i class="fas fa-briefcase text-6xl text-white opacity-80"></i>
+                            </div>
+                            <div class="playlist-title">Professional Experience</div>
+                            <div class="playlist-description">My work history and accomplishments</div>
+                        </div>
+                        <div class="playlist-card" onclick="switchSection('projects')">
+                            <div class="playlist-image bg-gradient-to-br from-green-500 to-teal-600 flex items-center justify-center">
+                                <i class="fas fa-code text-6xl text-white opacity-80"></i>
+                            </div>
+                            <div class="playlist-title">Projects</div>
+                            <div class="playlist-description">Showcase of my development work</div>
+                        </div>
+                        <div class="playlist-card" onclick="switchSection('skills')">
+                            <div class="playlist-image bg-gradient-to-br from-yellow-500 to-orange-600 flex items-center justify-center">
+                                <i class="fas fa-star text-6xl text-white opacity-80"></i>
+                            </div>
+                            <div class="playlist-title">Skills & Technologies</div>
+                            <div class="playlist-description">Technical capabilities and expertise</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- About Section -->
+                <div id="about" class="section-content">
+                    <h2 class="section-title mb-6">About Me</h2>
+                    <div class="track-content">
+                        <p class="mb-4">
+                            Detail-oriented Computer Science Engineering student with hands-on experience in quality assurance and full-stack web development using MERN stack. Proficient in JavaScript, React, Node.js, and MongoDB with a strong background in testing methodologies and agile practices.
+                        </p>
+                        <p>
+                            Skilled in collaborating with cross-functional teams to ensure high-quality web applications through comprehensive testing and proactive quality enhancements.
+                        </p>
+                        <div class="mt-8">
+                            <h3 class="font-bold text-xl mb-4">Contact Information</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="flex items-center">
+                                    <i class="fas fa-envelope mr-4 text-green-500"></i>
+                                    <span>Piyush2004sinha@gmail.com</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-phone mr-4 text-green-500"></i>
+                                    <span>+916266972369</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-map-marker-alt mr-4 text-green-500"></i>
+                                    <span>Durg, Bhilai, Chhattisgarh 490023</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-language mr-4 text-green-500"></i>
+                                    <span>English (Proficient), Hindi (Native)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Experience Section -->
+                <div id="experience" class="section-content">
+                    <h2 class="section-title mb-6">Professional Experience</h2>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="text-sm text-gray-400">
+                            <i class="fas fa-sort mr-2"></i> Sort by: Most Recent
+                        </div>
+                    </div>
+                    
+                    <div class="track">
+                        <div class="track-number">1</div>
+                        <div class="track-info">
+                            <div class="track-title">Software Testing</div>
+                            <div class="track-artist">Romson IT & Services</div>
+                        </div>
+                        <div class="track-duration">May 2023 - Present</div>
+                    </div>
+                    
+                    <div class="track-content">
+                        <h3 class="font-bold text-xl mb-4">Quality Assurance Engineer Intern</h3>
+                        <p class="mb-2">Romsan IT & Services, Bhilai, Chhattisgarh (2023)</p>
+                        <ul class="list-disc pl-6 space-y-2 mt-4">
+                            <li>Collaborated with cross-functional teams to ensure high-quality web applications through manual and automated testing, defect tracking, and agile participation.</li>
+                            <li>Validated production readiness by replicating issues, confirming fixes, and performing regression tests to ensure application stability and performance.</li>
+                            <li>Contributed usability insights, improved QA processes, and supported system stability through continuous monitoring and proactive quality enhancements.</li>
+                            <li>Participated in daily standups and sprint planning meetings, supporting the development team with detailed test reports and documentation.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="track mt-6">
+                        <div class="track-number">2</div>
+                        <div class="track-info">
+                            <div class="track-title">Placement Assistance Coordinator</div>
+                            <div class="track-artist">RSR Rungta College of Engineering and Technology</div>
+                        </div>
+                        <div class="track-duration">2023 - Present</div>
+                    </div>
+                    
+                    <div class="track-content">
+                        <h3 class="font-bold text-xl mb-4">Placement Assistance Coordinator</h3>
+                        <p class="mb-2">RSR Rungta College of Engineering and Technology, Bhilai, Chhattisgarh (2023 - Present)</p>
+                        <ul class="list-disc pl-6 space-y-2 mt-4">
+                            <li>Manage and coordinate placement day activities, ensuring smooth process flow between students and corporate HR representatives.</li>
+                            <li>Facilitate effective communication channels between students, faculty, and recruiting companies to optimize the recruitment process.</li>
+                            <li>Organize pre-placement workshops and training sessions to enhance student preparedness for technical interviews and assessments.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Education Section -->
+                <div id="education" class="section-content">
+                    <h2 class="section-title mb-6">Education</h2>
+                    
+                    <div class="track">
+                        <div class="track-number">1</div>
+                        <div class="track-info">
+                            <div class="track-title">Bachelor of Technology (B.Tech)</div>
+                            <div class="track-artist">RSR Rungta College of Engineering and Technology</div>
+                        </div>
+                        <div class="track-duration">2023 - 2027</div>
+                    </div>
+                    
+                    <div class="track-content">
+                        <h3 class="font-bold text-xl mb-4">Computer Science and Engineering</h3>
+                        <p class="mb-2">RSR Rungta College of Engineering and Technology, Bhilai, Chhattisgarh</p>
+                        <div class="mt-4 flex items-center">
+                            <i class="fas fa-graduation-cap mr-2 text-green-500"></i>
+                            <span>CGPA: 6.5</span>
+                        </div>
+                    </div>
+                    
+                    <div class="track mt-6">
+                        <div class="track-number">2</div>
+                        <div class="track-info">
+                            <div class="track-title">Senior Secondary (XII), CBSE</div>
+                            <div class="track-artist">MAR BASELIOS VIDYA BHAVAN Sr. Secondary School</div>
+                        </div>
+                        <div class="track-duration">2020 - 2022</div>
+                    </div>
+                    
+                    <div class="track-content">
+                        <h3 class="font-bold text-xl mb-4">Senior Secondary Education</h3>
+                        <p class="mb-2">MAR BASELIOS VIDYA BHAVAN Sr. Secondary School, Kailashnagar, Bhilai</p>
+                        <div class="mt-4 flex items-center">
+                            <i class="fas fa-graduation-cap mr-2 text-green-500"></i>
+                            <span>Percentage: 64%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="track mt-6">
+                        <div class="track-number">3</div>
+                        <div class="track-info">
+                            <div class="track-title">Secondary (X), CBSE</div>
+                            <div class="track-artist">MAR BASELIOS VIDYA BHAVAN Sr. Secondary School</div>
+                        </div>
+                        <div class="track-duration">2020</div>
+                    </div>
+                    
+                    <div class="track-content">
+                        <h3 class="font-bold text-xl mb-4">Secondary Education</h3>
+                        <p class="mb-2">MAR BASELIOS VIDYA BHAVAN Sr. Secondary School, Kailashnagar, Bhilai</p>
+                        <div class="mt-4 flex items-center">
+                            <i class="fas fa-graduation-cap mr-2 text-green-500"></i>
+                            <span>Percentage: 62%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projects Section -->
+                <div id="projects" class="section-content">
+                    <h2 class="section-title mb-6">Projects</h2>
+                    
+                    <div class="track">
+                        <div class="track-number">1</div>
+                        <div class="track-info">
+                            <div class="track-title">Property Pulse</div>
+                            <div class="track-artist">Real Estate Management Application</div>
+                        </div>
+                        <div class="track-duration">
+                            <i class="fab fa-github"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="track-content">
+                        <h3 class="font-bold text-xl mb-4">Property Pulse - Real Estate Management Application</h3>
+                        <div class="mb-4 flex flex-wrap">
+                            <span class="bg-gray-700 text-sm rounded-full px-3 py-1 mr-2 mb-2">Electron.js</span>
+                            <span class="bg-gray-700 text-sm rounded-full px-3 py-1 mr-2 mb-2">HTML5</span>
+                            <span class="bg-gray-700 text-sm rounded-full px-3 py-1 mr-2 mb-2">CSS3</span>
+                            <span class="bg-gray-700 text-sm rounded-full px-3 py-1 mr-2 mb-2">JavaScript</span>
+                            <span class="bg-gray-700 text-sm rounded-full px-3 py-1 mr-2 mb-2">IndexedDB</span>
+                        </div>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>Developed a comprehensive real estate management desktop application featuring offline functionality and efficient local data storage capabilities.</li>
+                            <li>Implemented multi-language support (English and Hindi) to enhance user accessibility and integrated Excel export functionality for seamless data management.</li>
+                            <li>Utilized Electron.js, HTML, CSS, JavaScript, and IndexedDB for local storage to create a robust offline-capable system.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="track mt-6">
+                        <div class="track-number">2</div>
+                        <div class="track-info">
+                            <div class="track-title">Last Kart</div>
+                            <div class="track-artist">Food Waste Reduction Platform</div>
+                        </div>
+                        <div class="track-duration">
+                            <i class="fab fa-github"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="track-content">
+                        <h3 class="font-bold text-xl mb-4">Last Kart - Food Waste Reduction Platform</h3>
+                        <div class="mb-4 flex flex-wrap">
+                            <span class="bg-gray-700 text-sm rounded-full px-3 py-1 mr-2 mb-2">MongoDB</span>
+                            <span class="bg-gray-700 text-sm rounded-full px-3 py-1 mr-2 mb-2">Express.js</span>
+                            <span class="bg-gray-700 text-sm rounded-full px-3 py-1 mr-2 mb-2">React Native</span>
+                            <span class="bg-gray-700 text-sm rounded-full px-3 py-1 mr-2 mb-2">Node.js</span>
+                            <span class="bg-gray-700 text-sm rounded-full px-3 py-1 mr-2 mb-2">MERN Stack</span>
+                        </div>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>Engineered a full-stack web application addressing food waste by creating a platform where shopkeepers can list and sell near-expiry products at discounted prices.</li>
+                            <li>Integrated real-time inventory management system with secure payment processing and comprehensive order tracking functionality.</li>
+                            <li>Designed and implemented responsive user interfaces for both consumers and merchants to provide a seamless experience across devices.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Skills Section -->
+                <div id="skills" class="section-content">
+                    <h2 class="section-title mb-6">Skills & Technologies</h2>
+                    
+                    <div class="mb-8">
+                        <h3 class="text-xl font-bold mb-4">Programming Languages</h3>
+                        <div class="skills-grid">
+                            <div class="skill-card">
+                                <div>
+                                    <i class="fab fa-js text-yellow-400 text-3xl mb-2"></i>
+                                    <div>JavaScript</div>
+                                </div>
+                            </div>
+                            <div class="skill-card">
+                                <div>
+                                    <i class="fab fa-html5 text-orange-500 text-3xl mb-2"></i>
+                                    <div>HTML5</div>
+                                </div>
+                            </div>
+                            <div class="skill-card">
+                                <div>
+                                    <i class="fab fa-css3-alt text-blue-500 text-3xl mb-2"></i>
+                                    <div>CSS3</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-8">
+                        <h3 class="text-xl font-bold mb-4">Frameworks & Libraries</h3>
+                        <div class="skills-grid">
+                            <div class="skill-card">
+                                <div>
+                                    <i class="fab fa-react text-blue-400 text-3xl mb-2"></i>
+                                    <div>ReactJS</div>
+                                </div>
+                            </div>
+                            <div class="skill-card">
+                                <div>
+                                    <i class="fab fa-node-js text-green-500 text-3xl mb-2"></i>
+                                    <div>Node.js</div>
+                                </div>
+                            </div>
+                            <div class="skill-card">
+                                <div>
+                                    <i class="fas fa-server text-gray-400 text-3xl mb-2"></i>
+                                    <div>Express.js</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-8">
+                        <h3 class="text-xl font-bold mb-4">Tools & Technologies</h3>
+                        <div class="skills-grid">
+                            <div class="skill-card">
+                                <div>
+                                    <i class="fab fa-git-alt text-orange-600 text-3xl mb-2"></i>
+                                    <div>Git & GitHub</div>
+                                </div>
+                            </div>
+                            <div class="skill-card">
+                                <div>
+                                    <i class="fas fa-database text-green-400 text-3xl mb-2"></i>
+                                    <div>MongoDB</div>
+                                </div>
+                            </div>
+                            <div class="skill-card">
+                                <div>
+                                    <i class="fas fa-exchange-alt text-blue-400 text-3xl mb-2"></i>
+                                    <div>RESTful APIs</div>
+                                </div>
+                            </div>
+                            <div class="skill-card">
+                                <div>
+                                    <i class="fas fa-vial text-purple-500 text-3xl mb-2"></i>
+                                    <div>Testing & QA</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Certifications Section -->
+                <div id="certifications" class="section-content">
+                    <h2 class="section-title mb-6">Certifications & Achievements</h2>
+                    
+                    <div class="track">
+                        <div class="track-number">1</div>
+                        <div class="track-info">
+                            <div class="track-title">AICTE Placement Preparation Course</div>
+                            <div class="track-artist">All India Council for Technical Education</div>
+                        </div>
+                        <div class="track-duration">2023</div>
+                    </div>
+                    
+                    <div class="track-content">
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>Completed comprehensive training in resume building, interview techniques, aptitude preparation, and professional communication skills.</li>
+                            <li>Developed workplace readiness competencies including technical problem-solving, team collaboration, and professional etiquette.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="track mt-6">
+                        <div class="track-number">2</div>
+                        <div class="track-info">
+                            <div class="track-title">1st Place – Poster Presentation</div>
+                            <div class="track-artist">International Conference on Next-Gen AI & Sustainable Innovation</div>
+                        </div>
+                        <div class="track-duration">2023</div>
+                    </div>
+                    
+                    <div class="track-content">
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>Secured first place for pioneering research on applying artificial intelligence to address sustainability challenges.</li>
+                            <li>Received recognition for innovation, technical precision, and cross-domain applicability in deploying intelligent systems for environmental and socio-economic impact.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Now Playing Bar -->
+        <div class="now-playing-bar">
+            <div class="flex items-center w-1/3">
+                <div class="flex-shrink-0 w-14 h-14 bg-gray-700 rounded mr-3 flex items-center justify-center">
+                    <i class="fas fa-user text-gray-300"></i>
+                </div>
+                <div>
+                    <div class="font-semibold">Piyush Sinha Resume</div>
+                    <div class="text-xs text-gray-400">Interactive Resume</div>
+                </div>
+            </div>
+            <div class="flex flex-col items-center justify-center w-1/3">
+                <div class="controls">
+                    <button class="control-button">
+                        <i class="fas fa-random"></i>
+                    </button>
+                    <button class="control-button">
+                        <i class="fas fa-step-backward"></i>
+                    </button>
+                    <button class="control-button play-pause" id="toggleBgMusic">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <button class="control-button">
+                        <i class="fas fa-step-forward"></i>
+                    </button>
+                    <button class="control-button">
+                        <i class="fas fa-redo-alt"></i>
+                    </button>
+                </div>
+                <div class="flex items-center w-full">
+                    <div class="text-xs text-gray-400">0:00</div>
+                    <div class="progress-bar">
+                        <div class="progress" id="musicProgress"></div>
+                    </div>
+                    <div class="text-xs text-gray-400" id="duration">0:30</div>
+                </div>
+            </div>
+            <div class="flex items-center justify-end w-1/3">
+                <div class="flex items-center">
+                    <button class="control-button">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                    <div class="progress-bar w-24">
+                        <div class="progress" style="width: 70%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const bgMusic = document.getElementById('bgMusic');
+            const introAudio = document.getElementById('introAudio');
+            const toggleBgMusicBtn = document.getElementById('toggleBgMusic');
+            const playIntroBtn = document.getElementById('playIntro');
+            const musicProgress = document.getElementById('musicProgress');
+            const navItems = document.querySelectorAll('.nav-item');
+            const sectionContents = document.querySelectorAll('.section-content');
+            
+            // Initialize with background music paused
+            bgMusic.volume = 0.3;
+            bgMusic.pause();
+            
+            // Toggle background music play/pause
+            toggleBgMusicBtn.addEventListener('click', function() {
+                if (bgMusic.paused) {
+                    bgMusic.play();
+                    toggleBgMusicBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                } else {
+                    bgMusic.pause();
+                    toggleBgMusicBtn.innerHTML = '<i class="fas fa-play"></i>';
+                }
+            });
+            
+            // Play introduction audio
+            playIntroBtn.addEventListener('click', function() {
+                if (introAudio.paused) {
+                    // Pause background music and reduce its volume
+                    if (!bgMusic.paused) {
+                        bgMusic.volume = 0.1;
+                    }
+                    
+                    introAudio.play();
+                    playIntroBtn.innerHTML = '<i class="fas fa-pause mr-2"></i>Pause Introduction';
+                    
+                    // When intro ends, restore background music volume
+                    introAudio.onended = function() {
+                        playIntroBtn.innerHTML = '<i class="fas fa-play mr-2"></i>Play Introduction';
+                        if (!bgMusic.paused) {
+                            bgMusic.volume = 0.3;
+                        }
+                    };
+                } else {
+                    introAudio.pause();
+                    playIntroBtn.innerHTML = '<i class="fas fa-play mr-2"></i>Play Introduction';
+                    
+                    // Restore background music volume
+                    if (!bgMusic.paused) {
+                        bgMusic.volume = 0.3;
+                    }
+                }
+            });
+            
+            // Update music progress bar
+            bgMusic.addEventListener('timeupdate', function() {
+                const percentage = (bgMusic.currentTime / bgMusic.duration) * 100;
+                musicProgress.style.width = percentage + '%';
+            });
+            
+            // Navigation between sections
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const sectionId = this.getAttribute('data-section');
+                    
+                    // Update active nav item
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show selected section
+                    sectionContents.forEach(section => {
+                        section.classList.remove('active-section');
+                        if (section.id === sectionId) {
+                            section.classList.add('active-section');
+                        }
+                    });
+                });
+            });
+            
+            // Function to switch sections from playlist cards
+            window.switchSection = function(sectionId) {
+                // Find and click the nav item
+                navItems.forEach(nav => {
+                    if (nav.getAttribute('data-section') === sectionId) {
+                        nav.click();
+                    }
+                });
+            };
+            
+            // Optional: Start playing background music automatically after user interaction
+            document.body.addEventListener('click', function() {
+                if (bgMusic.paused && !bgMusic.played.length) {
+                    bgMusic.play();
+                    toggleBgMusicBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                }
+            }, { once: true });
+        });
+    </script>
+</body>
+
+</html>
