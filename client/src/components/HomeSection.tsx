@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { SUMMARY, PROFILE, SKILLS } from "@/lib/constants";
 
 interface HomeSectionProps {
   playIntro: () => void;
@@ -26,153 +27,203 @@ const HomeSection = ({ playIntro }: HomeSectionProps) => {
     },
   };
 
+  // Map skill levels for visualization
+  const skillLevels = {
+    "JavaScript": 4.5,
+    "HTML5": 4,
+    "CSS3": 4,
+    "ReactJS": 4.5,
+    "Node.js": 4,
+    "Express.js": 3.5,
+    "Git & GitHub": 4,
+    "MongoDB": 4,
+    "RESTful APIs": 3.5,
+    "Testing & QA": 4
+  };
+
   return (
     <motion.div
       variants={containerVariants}
       initial="hidden"
       animate="visible"
+      className="home-section relative"
     >
+      {/* Background decoration */}
+      <div className="absolute top-0 right-0 w-1/2 h-32 bg-gradient-radial from-[#1DB954] to-transparent opacity-5 blur-xl"></div>
+      <div className="absolute bottom-20 left-0 w-64 h-64 bg-gradient-radial from-[#68217a] to-transparent opacity-5 blur-xl rounded-full"></div>
+      
       <motion.div 
-        className="flex flex-col md:flex-row items-center md:items-end mb-8 pb-6 border-b border-opacity-10 border-white"
+        className="flex flex-col md:flex-row items-center md:items-end mb-12 pb-8 border-b border-opacity-10 border-white relative overflow-hidden"
         variants={itemVariants}
       >
-        <img 
-          src="https://media.licdn.com/dms/image/v2/D4D03AQGNGXUK2plbEw/profile-displayphoto-shrink_800_800/B4DZTptDnLGkAc-/0/1739087691373?e=1751500800&v=beta&t=xuTbV5tFU3DIca_rwBRRdhHVR5M8eCw1CsyuiXrh0cM" 
-          alt="Piyush Sinha" 
-          className="w-48 h-48 rounded-full object-cover md:mr-6 mb-6 md:mb-0 shadow-xl"
-        />
-        <div className="text-center md:text-left">
-          <div className="uppercase text-xs font-bold mb-2">Profile</div>
-          <h1 className="text-4xl md:text-6xl font-bold mb-2 leading-tight">Piyush Sinha</h1>
-          <div className="flex flex-wrap justify-center md:justify-start items-center text-[#b3b3b3] text-sm mb-4">
-            <span className="mr-6 flex items-center"><i className="fas fa-map-marker-alt mr-2"></i> New Delhi, India</span>
-            <span className="mr-6 flex items-center"><i className="fas fa-envelope mr-2"></i> piyush.sinha@example.com</span>
-            <span className="flex items-center"><i className="fas fa-phone mr-2"></i> +91 98765-43210</span>
+        {/* Profile section with enhanced styling */}
+        <div className="relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-[#1DB954] to-[#68217a] opacity-30 rounded-full blur-md transform scale-110"></div>
+          <img 
+            src={PROFILE.image} 
+            alt={PROFILE.name} 
+            className="w-48 h-48 rounded-full object-cover md:mr-6 mb-6 md:mb-0 shadow-2xl relative z-10 border-2 border-[#1DB954]"
+          />
+        </div>
+        <div className="text-center md:text-left relative z-10">
+          <div className="uppercase text-xs font-bold mb-2 text-[#1DB954]">Professional Summary</div>
+          <h1 className="text-4xl md:text-6xl font-bold mb-2 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-[#1DB954]">{PROFILE.name}</h1>
+          <div className="flex flex-wrap justify-center md:justify-start items-center text-[#b3b3b3] text-sm mb-6">
+            <span className="mr-6 flex items-center mb-2"><i className="fas fa-map-marker-alt mr-2"></i> {PROFILE.location}</span>
+            <span className="mr-6 flex items-center mb-2"><i className="fas fa-envelope mr-2"></i> {PROFILE.email}</span>
+            <span className="flex items-center mb-2"><i className="fas fa-phone mr-2"></i> {PROFILE.phone}</span>
           </div>
+          <p className="text-[#b3b3b3] max-w-2xl mb-6 text-sm md:text-base">{SUMMARY}</p>
           <div className="flex flex-wrap justify-center md:justify-start mt-4">
             <motion.button 
-              className="spotify-button mr-4"
+              className="spotify-button mr-4 mb-3"
               onClick={playIntro}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              PLAY MY INTRO
+              <i className="fas fa-play mr-2"></i> PLAY MY INTRO
             </motion.button>
-            <motion.button 
-              className="spotify-button-outline"
+            <motion.a 
+              href="https://github.com/your-github" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="spotify-button-outline mb-3 inline-flex items-center justify-center"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              DOWNLOAD CV
-            </motion.button>
+              <i className="fas fa-file-download mr-2"></i> DOWNLOAD CV
+            </motion.a>
           </div>
         </div>
       </motion.div>
       
-      {/* Top Skills */}
-      <motion.div className="mb-10" variants={itemVariants}>
-        <h2 className="text-2xl font-bold mb-4">Top Skills</h2>
-        <div className="space-y-2">
-          <motion.div 
-            className="track-item"
-            whileHover={{ scale: 1.01 }}
-          >
-            <div className="w-6 text-center text-[#b3b3b3] mr-4">1</div>
-            <div className="flex-1">
-              <div className="font-semibold">Full Stack Development</div>
-              <div className="text-sm text-[#b3b3b3]">React, Node.js, Express, MongoDB</div>
-            </div>
-            <div className="text-[#b3b3b3] flex items-center">
-              <div className="flex space-x-1 mr-4">
-                {[...Array(5)].map((_, i) => (
-                  <i key={i} className="fas fa-star text-[#1DB954]"></i>
-                ))}
+      {/* Top Skills with enhanced visuals */}
+      <motion.div className="mb-12" variants={itemVariants}>
+        <h2 className="text-2xl font-bold mb-6 flex items-center">
+          <span className="text-[#1DB954] mr-2"><i className="fas fa-chart-line"></i></span>
+          <span>Top Skills</span>
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {SKILLS.programmingLanguages.map((skill, index) => (
+            <motion.div 
+              key={`pl-${index}`}
+              className="track-item"
+              whileHover={{ scale: 1.02, y: -2 }}
+            >
+              <div className="w-8 h-8 bg-gradient-to-br from-[#1DB954] to-[#68217a] rounded-md flex items-center justify-center text-white mr-4">
+                <i className="fas fa-code"></i>
               </div>
-              <span>5+ years</span>
-            </div>
-          </motion.div>
+              <div className="flex-1">
+                <div className="font-semibold">{skill}</div>
+                <div className="skill-level mt-1">
+                  <div className="skill-progress" style={{ width: `${(skillLevels[skill as keyof typeof skillLevels] || 3) * 20}%` }}></div>
+                </div>
+              </div>
+              <div className="text-[#1DB954] flex items-center ml-2">
+                <div className="flex">
+                  {Array.from({ length: Math.floor(skillLevels[skill as keyof typeof skillLevels] || 3) }).map((_, i) => (
+                    <i key={i} className="fas fa-star text-xs"></i>
+                  ))}
+                  {(skillLevels[skill as keyof typeof skillLevels] || 3) % 1 !== 0 && (
+                    <i className="fas fa-star-half-alt text-xs"></i>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          ))}
           
-          <motion.div 
-            className="track-item"
-            whileHover={{ scale: 1.01 }}
-          >
-            <div className="w-6 text-center text-[#b3b3b3] mr-4">2</div>
-            <div className="flex-1">
-              <div className="font-semibold">UI/UX Design</div>
-              <div className="text-sm text-[#b3b3b3]">Figma, Adobe XD, Sketch</div>
-            </div>
-            <div className="text-[#b3b3b3] flex items-center">
-              <div className="flex space-x-1 mr-4">
-                {[...Array(4)].map((_, i) => (
-                  <i key={i} className="fas fa-star text-[#1DB954]"></i>
-                ))}
-                <i className="fas fa-star-half-alt text-[#1DB954]"></i>
+          {SKILLS.frameworksAndLibraries.map((skill, index) => (
+            <motion.div 
+              key={`fr-${index}`}
+              className="track-item"
+              whileHover={{ scale: 1.02, y: -2 }}
+            >
+              <div className="w-8 h-8 bg-gradient-to-br from-[#FF8C00] to-[#FF1493] rounded-md flex items-center justify-center text-white mr-4">
+                <i className="fas fa-layer-group"></i>
               </div>
-              <span>4 years</span>
-            </div>
-          </motion.div>
+              <div className="flex-1">
+                <div className="font-semibold">{skill}</div>
+                <div className="skill-level mt-1">
+                  <div 
+                    className="skill-progress" 
+                    style={{ 
+                      width: `${(skillLevels[skill as keyof typeof skillLevels] || 3) * 20}%`,
+                      background: "linear-gradient(90deg, #FF8C00 0%, #FF1493 100%)"
+                    }}
+                  ></div>
+                </div>
+              </div>
+              <div className="text-[#FF8C00] flex items-center ml-2">
+                <div className="flex">
+                  {Array.from({ length: Math.floor(skillLevels[skill as keyof typeof skillLevels] || 3) }).map((_, i) => (
+                    <i key={i} className="fas fa-star text-xs"></i>
+                  ))}
+                  {(skillLevels[skill as keyof typeof skillLevels] || 3) % 1 !== 0 && (
+                    <i className="fas fa-star-half-alt text-xs"></i>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          ))}
           
-          <motion.div 
-            className="track-item"
-            whileHover={{ scale: 1.01 }}
-          >
-            <div className="w-6 text-center text-[#b3b3b3] mr-4">3</div>
-            <div className="flex-1">
-              <div className="font-semibold">Mobile Development</div>
-              <div className="text-sm text-[#b3b3b3]">React Native, Flutter</div>
-            </div>
-            <div className="text-[#b3b3b3] flex items-center">
-              <div className="flex space-x-1 mr-4">
-                {[...Array(4)].map((_, i) => (
-                  <i key={i} className="fas fa-star text-[#1DB954]"></i>
-                ))}
-                <i className="far fa-star text-[#1DB954]"></i>
+          {SKILLS.toolsAndTechnologies.map((skill, index) => (
+            <motion.div 
+              key={`tt-${index}`}
+              className="track-item"
+              whileHover={{ scale: 1.02, y: -2 }}
+            >
+              <div className="w-8 h-8 bg-gradient-to-br from-[#1E90FF] to-[#00CED1] rounded-md flex items-center justify-center text-white mr-4">
+                <i className="fas fa-tools"></i>
               </div>
-              <span>3+ years</span>
-            </div>
-          </motion.div>
+              <div className="flex-1">
+                <div className="font-semibold">{skill}</div>
+                <div className="skill-level mt-1">
+                  <div 
+                    className="skill-progress" 
+                    style={{ 
+                      width: `${(skillLevels[skill as keyof typeof skillLevels] || 3) * 20}%`,
+                      background: "linear-gradient(90deg, #1E90FF 0%, #00CED1 100%)"
+                    }}
+                  ></div>
+                </div>
+              </div>
+              <div className="text-[#1E90FF] flex items-center ml-2">
+                <div className="flex">
+                  {Array.from({ length: Math.floor(skillLevels[skill as keyof typeof skillLevels] || 3) }).map((_, i) => (
+                    <i key={i} className="fas fa-star text-xs"></i>
+                  ))}
+                  {(skillLevels[skill as keyof typeof skillLevels] || 3) % 1 !== 0 && (
+                    <i className="fas fa-star-half-alt text-xs"></i>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </motion.div>
       
-      {/* Featured Projects */}
-      <motion.div variants={itemVariants}>
-        <h2 className="text-2xl font-bold mb-4">Featured Projects</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[
-            {
-              title: "Music Streaming App",
-              desc: "A Spotify-inspired music streaming application with real-time analytics",
-              img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Y29kaW5nfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
-            },
-            {
-              title: "E-Commerce Platform",
-              desc: "Full-stack e-commerce solution with payment integration",
-              img: "https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bW9iaWxlJTIwYXBwfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
-            },
-            {
-              title: "Data Visualization Tool",
-              desc: "Interactive dashboard for complex data analysis",
-              img: "https://images.unsplash.com/photo-1543966888-7c1dc482a810?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8ZGF0YSUyMHZpc3VhbGl6YXRpb258ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"
-            },
-            {
-              title: "Audio Processing API",
-              desc: "Backend service for audio processing and analysis",
-              img: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8YXVkaW8lMjB3YXZlc3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-            }
-          ].map((project, index) => (
-            <motion.div 
-              key={index}
-              className="project-card"
-              whileHover={{ y: -5, scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <div className="aspect-square rounded overflow-hidden mb-4 shadow-lg">
-                <img src={project.img} alt={project.title} className="w-full h-full object-cover" />
-              </div>
-              <h3 className="font-bold truncate">{project.title}</h3>
-              <p className="text-sm text-[#b3b3b3] line-clamp-2">{project.desc}</p>
-            </motion.div>
-          ))}
+      {/* Sound visualization teaser */}
+      <motion.div 
+        variants={itemVariants}
+        className="mb-8 p-6 rounded-xl bg-gradient-to-r from-[rgba(29,185,84,0.1)] to-[rgba(104,33,122,0.1)] border border-[rgba(255,255,255,0.1)]"
+      >
+        <h2 className="text-xl font-bold mb-4 flex items-center">
+          <span className="text-[#1DB954] mr-2"><i className="fas fa-headphones-alt"></i></span>
+          <span>Ready to hear more about my experience?</span>
+        </h2>
+        <p className="text-[#b3b3b3] mb-4">
+          Explore the other sections to learn about my education, work experience, projects, and certifications. 
+          Click the visualize button to see an audio representation of my skills!
+        </p>
+        <div className="flex flex-wrap">
+          <motion.button 
+            className="spotify-button flex items-center"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => document.getElementById('visualizeBtn')?.click()}
+          >
+            <i className="fas fa-wave-square mr-2"></i> VISUALIZE MY SKILLS
+          </motion.button>
         </div>
       </motion.div>
     </motion.div>

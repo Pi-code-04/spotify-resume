@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,6 +10,11 @@
   --spotify-dark-gray: 18 18 18; /* #121212 */
   --spotify-light-gray: 40 40 40; /* #282828 */
   --spotify-white: 255 255 255; /* #FFFFFF */
+  --spotify-purple: 104 33 122; /* #68217a */
+  --spotify-blue: 30 144 255; /* #1E90FF */
+  --spotify-pink: 255 20 147; /* #FF1493 */
+  --spotify-orange: 255 140 0; /* #FF8C00 */
+  --spotify-cyan: 0 206 209; /* #00CED1 */
   
   --background: var(--spotify-black);
   --foreground: var(--spotify-white);
@@ -78,19 +85,25 @@
 }
 
 .content-area {
-  @apply flex-1 bg-gradient-to-b from-[#3b3b3b] to-[#121212] to-25% p-6 overflow-y-auto;
+  @apply flex-1 p-6 overflow-y-auto;
+  background: linear-gradient(135deg, #3b3b3b 0%, #121212 100%);
+  background-size: 200% 200%;
+  animation: gradient-shift 15s ease infinite;
 }
 
 .now-playing-bar {
-  @apply bg-[#282828] border-t border-[#333] py-4 px-6;
+  @apply border-t border-[#333] py-4 px-6;
+  background: linear-gradient(90deg, #282828 0%, #1e1e1e 100%);
 }
 
 .nav-item {
-  @apply flex items-center p-2 mb-2 rounded cursor-pointer;
+  @apply flex items-center p-2 mb-2 rounded cursor-pointer transition-all duration-300;
 }
 
 .nav-item.active {
-  @apply bg-[#282828] text-white;
+  @apply font-bold text-white;
+  background: linear-gradient(90deg, rgba(29,185,84,0.3) 0%, rgba(40,40,40,0.5) 100%);
+  box-shadow: 0 0 10px rgba(29, 185, 84, 0.2);
 }
 
 .nav-item:not(.active) {
@@ -98,33 +111,104 @@
 }
 
 .section-content {
-  transition: opacity 0.3s ease-in-out;
+  transition: all 0.4s ease-in-out;
 }
 
 .spotify-button {
-  @apply bg-[#1DB954] text-white font-bold py-3 px-8 rounded-full transition transform hover:scale-105 focus:outline-none;
+  @apply text-white font-bold py-3 px-8 rounded-full shadow-lg focus:outline-none;
+  background: linear-gradient(90deg, #1DB954 0%, #149841 100%);
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.spotify-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(29, 185, 84, 0.5);
 }
 
 .spotify-button-outline {
   @apply border border-[#b3b3b3] text-white font-bold py-3 px-8 rounded-full transition hover:border-white focus:outline-none;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+}
+
+.spotify-button-outline:hover {
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
 }
 
 .track-item {
-  @apply flex items-center p-3 bg-opacity-70 bg-[#282828] rounded hover:bg-opacity-90 transition cursor-pointer;
+  @apply flex items-center p-3 rounded transition cursor-pointer;
+  background: linear-gradient(90deg, rgba(40,40,40,0.7) 0%, rgba(30,30,30,0.7) 100%);
+  backdrop-filter: blur(5px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.track-item:hover {
+  background: linear-gradient(90deg, rgba(40,40,40,0.9) 0%, rgba(30,30,30,0.9) 100%);
+  transform: translateY(-2px);
 }
 
 .project-card {
-  @apply bg-[#282828] bg-opacity-70 p-4 rounded-lg hover:bg-opacity-90 transition cursor-pointer;
+  @apply p-4 rounded-lg transition cursor-pointer;
+  background: rgba(40, 40, 40, 0.7);
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 .skill-tag {
   @apply px-3 py-1 bg-[#121212] rounded-full text-sm;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
 .skill-level {
   @apply w-full bg-[#282828] rounded-full h-2;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
 .skill-progress {
-  @apply bg-[#1DB954] h-2 rounded-full;
+  @apply h-2 rounded-full;
+  background: linear-gradient(90deg, #1DB954 0%, #68d999 100%);
+  box-shadow: 0 0 5px rgba(29, 185, 84, 0.5);
+}
+
+/* Colorful section backgrounds */
+.about-section {
+  background: linear-gradient(135deg, rgba(104, 33, 122, 0.1) 0%, rgba(30, 30, 30, 0.9) 100%);
+}
+
+.experience-section {
+  background: linear-gradient(135deg, rgba(30, 144, 255, 0.1) 0%, rgba(30, 30, 30, 0.9) 100%);
+}
+
+.education-section {
+  background: linear-gradient(135deg, rgba(255, 140, 0, 0.1) 0%, rgba(30, 30, 30, 0.9) 100%);
+}
+
+.projects-section {
+  background: linear-gradient(135deg, rgba(255, 20, 147, 0.1) 0%, rgba(30, 30, 30, 0.9) 100%);
+}
+
+.skills-section {
+  background: linear-gradient(135deg, rgba(0, 206, 209, 0.1) 0%, rgba(30, 30, 30, 0.9) 100%);
+}
+
+.certifications-section {
+  background: linear-gradient(135deg, rgba(29, 185, 84, 0.1) 0%, rgba(30, 30, 30, 0.9) 100%);
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
